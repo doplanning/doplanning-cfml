@@ -52,7 +52,7 @@
 	
 	<!----------------------------------------- getLogs -------------------------------------------------->
 	
-	<cffunction name="getLogs" returntype="string" access="public">
+	<!---<cffunction name="getLogs" returntype="string" access="public">
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "getLogs">
@@ -64,8 +64,7 @@
 		<cfset var xmlRequest = "">
 		<cfset var xmlResult = "">
 		<cfset var xmlResponseContent = "">
-		
-		<!---<cfinclude template="includes/initVars.cfm">--->	
+	
 			
 		<cftry>
 			
@@ -102,7 +101,7 @@
 				<cfset action_id = xmlRequest.request.parameters.logs.xmlAttributes.action_id>
 			</cfif>
 			
-			<!--- ORDER --->
+	
 			<cfif isDefined("xmlRequest.request.parameters.order")>
 		
 				<cfset order_by = xmlRequest.request.parameters.order.xmlAttributes.parameter>
@@ -119,37 +118,7 @@
 				<cfset order_type = "desc">
 			
 			</cfif>
-			
-			<!---<cfif current_page IS 1>
-			
-				<cfquery datasource="#client_dsn#" name="getAllLogs">
-					SELECT * , count(*) AS num_logs
-					FROM #client_abb#_logs AS logs 
-					LEFT JOIN #client_abb#_users AS users ON logs.user_id = users.id
-					<cfif isDefined("user_log")>
-					AND logs.user_id = <cfqueryparam value="#user_log#" cfsqltype="cf_sql_integer">
-					</cfif>
-					<cfif isDefined("date_from")>
-					AND logs.time > <cfqueryparam value="#date_from#" cfsqltype="cf_sql_timestamp">
-					</cfif>
-					<cfif isDefined("date_to")>
-					AND logs.time < <cfqueryparam value="#date_to#" cfsqltype="cf_sql_timestamp">
-					</cfif>
-					LEFT JOIN APP_methods AS methods ON logs.method = methods.name
-					<cfif isDefined("action_id")>
-					AND methods.id = <cfqueryparam value="#action_id#" cfsqltype="cf_sql_integer">
-					</cfif>
-					LEFT JOIN APP_components AS components ON logs.component = components.name
-					
-					GROUP BY logs.id
-					ORDER BY #order_by# #order_type#;
-				</cfquery>
-				
-				<cfset num_logs = getAllLogs.num_logs>
-			
-				<cfset num_pages = ceiling(num_logs/logs_per_page)>
-				
-			</cfif>--->
+
 			
 			<cfset init_log = (current_page-1)*logs_per_page>
 			
@@ -157,9 +126,7 @@
 				SELECT SQL_CALC_FOUND_ROWS *, logs.id AS log_id 
 				FROM #client_abb#_logs AS logs 
 				LEFT JOIN #client_abb#_users AS users ON logs.user_id = users.id
-				<!---LEFT JOIN APP_methods AS methods ON logs.method = methods.name
-				LEFT JOIN APP_components AS components ON logs.component = components.name
-				WHERE methods.action_es != ''--->
+
 				WHERE logs.id != 0
 				<cfif isDefined("user_log")>
 				AND logs.user_id = <cfqueryparam value="#user_log#" cfsqltype="cf_sql_integer">
@@ -180,12 +147,12 @@
 			
 			<cfquery datasource="#APPLICATION.dsn#" name="methods">
 				SELECT *
-				FROM APP_methods AS methods; <!---ON logs.method = methods.name--->
+				FROM APP_methods AS methods; 
 			</cfquery>
 			
 			<cfquery datasource="#APPLICATION.dsn#" name="components">
 				SELECT *
-				FROM APP_components AS components; <!---ON logs.component = components.name--->
+				FROM APP_components AS components; 
 			</cfquery>
 			
 			<cfquery dbtype="query" name="getLog">
@@ -197,12 +164,7 @@
 				AND methods.id = <cfqueryparam value="#action_id#" cfsqltype="cf_sql_integer">
 				</cfif>;
 			</cfquery>
-			
-			<!---<cfquery name="getLog" dbtype="query">
-				SELECT TOP 10 *, logs.id AS log_id 
-				FROM getAllLogs
-				ORDER BY #order_by# #order_type#;
-			</cfquery>--->
+
 			
 			<cfset num_logs = getLogCount.num_logs>
 			
@@ -235,14 +197,176 @@
 		
 		<cfreturn xmlResponse>
 		
-	</cffunction>
+	</cffunction>--->
+	
+	
+<!----------------------------------------- getLogs con paginación -------------------------------------------------->
+	
+	<!---<cffunction name="getLogs" returntype="struct" access="public">
+		<cfargument name="user_log" type="numeric" required="no">
+		<cfargument name="date_from" type="string" required="no">
+		<cfargument name="date_to" type="string" required="no">
+		<cfargument name="action_id" type="string" required="no">
+		<cfargument name="logs_per_page" type="numeric" required="no" default="20">
+		<cfargument name="current_page" type="numeric" required="no" default="1">
+		<cfargument name="order_by" type="string" required="no" default="time">
+		<cfargument name="order_type" type="string" required="no" default="desc">
+			
+		<cftry>
+			
+			<cfinclude template="includes/functionStart.cfm">
+			
+			<cfinclude template="includes/checkAdminAccess.cfm">
+			
+			<cfset init_log = (current_page-1)*logs_per_page>
+			
+			<cfquery datasource="#client_dsn#" name="logs">
+				SELECT SQL_CALC_FOUND_ROWS *, logs.id AS log_id 
+				FROM #client_abb#_logs AS logs 
+				LEFT JOIN #client_abb#_users AS users ON logs.user_id = users.id
+				WHERE logs.id != 0
+				<cfif isDefined("arguments.user_log")>
+				AND logs.user_id = <cfqueryparam value="#arguments.user_log#" cfsqltype="cf_sql_integer">
+				</cfif>
+				<cfif isDefined("arguments.date_from")>
+				AND logs.time >= STR_TO_DATE(<cfqueryparam value="#arguments.date_from#" cfsqltype="cf_sql_varchar">,'#date_format#')
+				</cfif>
+				<cfif isDefined("arguments.date_to")>
+				AND logs.time <= STR_TO_DATE(<cfqueryparam value="#arguments.date_to# 23:59:59" cfsqltype="cf_sql_varchar">,'#datetime_format#')
+				</cfif>
+				<cfif isDefined("arguments.action")>
+				AND logs.method = <cfqueryparam value="#arguments.action_id#" cfsqltype="cf_sql_varchar">
+				</cfif>				
+				ORDER BY #order_by# #order_type#
+				LIMIT #init_log#, #logs_per_page#;
+			</cfquery>			
+			
+
+	
+			<cfset response = {result="true", message="", query=#logs#}>			
+			
+			<cfcatch>
+			
+				<cfinclude template="includes/errorHandlerStruct.cfm">
+				
+			</cfcatch>										
+			
+		</cftry>
+		
+		<cfreturn #response#>
+		
+	</cffunction>--->	
+	
+	
+	
+	
+	
+	
+<!----------------------------------------- getLogs -------------------------------------------------->
+	
+	<cffunction name="getLogs" returntype="struct" access="public">
+		<cfargument name="user_log" type="numeric" required="no">
+		<cfargument name="from_date" type="string" required="no">
+		<cfargument name="end_date" type="string" required="no">
+		<cfargument name="action" type="string" required="no">
+		<cfargument name="limit" type="numeric" required="yes" >
+		<cfargument name="order_by" type="string" required="no" default="time">
+		<cfargument name="order_type" type="string" required="no" default="desc">
+			
+		<cftry>
+			
+			<cfinclude template="includes/functionStart.cfm">
+			
+			<cfinclude template="includes/checkAdminAccess.cfm">
+			
+			<cfquery datasource="#client_dsn#" name="logs">
+				SELECT SQL_CALC_FOUND_ROWS logs.*, logs.id AS log_id, CONCAT(users.family_name, ' ', users.name) as name
+				FROM #client_abb#_logs AS logs 
+				LEFT JOIN #client_abb#_users AS users ON logs.user_id = users.id
+				WHERE logs.id != 0
+				<cfif isDefined("arguments.user_log")>
+				AND logs.user_id = <cfqueryparam value="#arguments.user_log#" cfsqltype="cf_sql_integer">
+				</cfif>
+				<cfif isDefined("arguments.from_date")>
+				AND logs.time >= STR_TO_DATE(<cfqueryparam value="#arguments.from_date#" cfsqltype="cf_sql_varchar">,'#date_format#')
+				</cfif>
+				<cfif isDefined("arguments.end_date")>
+				AND logs.time <= STR_TO_DATE(<cfqueryparam value="#arguments.end_date# 23:59:59" cfsqltype="cf_sql_varchar">,'#datetime_format#')
+				</cfif>
+				<cfif isDefined("arguments.action")>
+				AND logs.method = <cfqueryparam value="#arguments.action#" cfsqltype="cf_sql_varchar">
+				</cfif>				
+				ORDER BY #order_by# #order_type#
+				LIMIT #limit#;
+			</cfquery>	
+	
+			<cfset response = {result="true", message="", query=#logs#}>			
+			
+			<cfcatch>
+			
+				<cfinclude template="includes/errorHandlerStruct.cfm">
+				
+			</cfcatch>										
+			
+		</cftry>
+		
+		<cfreturn #response#>
+		
+	</cffunction>	
+	
+	
+	
+	
+	
+		
+	
+<!----------------------------------------- getLogItem -------------------------------------------------->
+	
+	<cffunction name="getLogItem" returntype="struct" access="public">
+		<cfargument name="log_id" type="numeric" required="yes">
+			
+		<cftry>
+			
+			<cfinclude template="includes/functionStart.cfm">
+			
+			<cfinclude template="includes/checkAdminAccess.cfm">
+			
+			<cfquery datasource="#client_dsn#" name="logs">
+				SELECT logs.*, logs.id AS log_id, CONCAT(users.family_name, ' ', users.name) as name, users.email, users.image_type, users.id as user_id
+				FROM #client_abb#_logs AS logs 
+				LEFT JOIN #client_abb#_users AS users ON logs.user_id = users.id
+				WHERE logs.id = <cfqueryparam value="#arguments.log_id#" cfsqltype="cf_sql_integer">
+				;	
+			</cfquery>	
+	
+			<cfset response = {result="true", message="", query=#logs#}>			
+			
+			<cfcatch>
+			
+				<cfinclude template="includes/errorHandlerStruct.cfm">
+				
+			</cfcatch>										
+			
+		</cftry>
+		
+		<cfreturn #response#>
+		
+	</cffunction>	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	<!----------------------------------------- getLogActions -------------------------------------------------->
 	
 	<!---Devuelve una lista de las acciones de log disponibles--->
 	
-	<cffunction name="getLogActions" returntype="string" access="public">
+	<!---<cffunction name="getLogActions" returntype="string" access="public">
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "getLogActions">
@@ -254,8 +378,7 @@
 		<cfset var xmlRequest = "">
 		<cfset var xmlResult = "">
 		<cfset var xmlResponseContent = "">
-		
-		<!---<cfinclude template="includes/initVars.cfm">--->	
+	
 			
 		<cftry>
 			
@@ -295,4 +418,45 @@
 		
 	</cffunction>
 	
+</cfcomponent>--->
+
+
+
+	<!---cmartinez--->
+	<!----------------------------------------- getLogActions -------------------------------------------------->
+	
+	<!---Devuelve una lista de las acciones de log disponibles--->
+	
+	<cffunction name="getLogActions" returntype="struct" access="public">
+		
+		<cfset var method = "getLogActions">	
+			
+		<cftry>
+			
+			<cfinclude template="includes/functionStart.cfm">
+			
+			<cfinclude template="includes/checkAdminAccess.cfm">
+			
+			<cfquery datasource="#APPLICATION.dsn#" name="getLogActions">
+				SELECT *
+				FROM APP_methods AS methods
+				WHERE action_es != ''
+				ORDER BY action_es ASC;
+			</cfquery>
+			
+			<cfset response = {result="true", message="", query=#getLogActions#}>			
+			
+			<cfcatch>
+			
+				<cfinclude template="includes/errorHandlerStruct.cfm">
+				
+			</cfcatch>										
+			
+		</cftry>
+		
+		<cfreturn #response#>
+		
+	</cffunction>
+	
 </cfcomponent>
+

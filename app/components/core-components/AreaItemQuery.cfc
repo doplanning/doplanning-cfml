@@ -18,6 +18,9 @@
 	<cfset component = "AreaItemQuery">	
 	
 	
+	<cfset date_format = "%d-%m-%Y"><!---%H:%i:%s---><!---Formato de fecha en la que se debe recibir los parámetros--->
+	<cfset datetime_format = "%d-%m-%Y %H:%i:%s">
+	
 	<!---getItem--->
 	
 	<cffunction name="getItem" output="false" returntype="query" access="public">
@@ -95,7 +98,10 @@
 		<cfargument name="items_page" type="string" required="no">--->		
 		
 		<cfargument name="client_abb" type="string" required="yes">
-		<cfargument name="client_dsn" type="string" required="yes">		
+		<cfargument name="client_dsn" type="string" required="yes">	
+		
+		<cfargument name="from_date" type="string" required="no">
+		<cfargument name="end_date" type="string" required="no">	
 		
 		<cfset var method = "getAreaItems">
 		<cfset var count = 0>
@@ -200,6 +206,16 @@
 					<cfif isDefined("arguments.state")>
 					AND items.state = <cfqueryparam value="#arguments.state#" cfsqltype="cf_sql_varchar">
 					</cfif>
+					
+					
+
+					<cfif isDefined("arguments.from_date")>
+					AND items.creation_date >= STR_TO_DATE(<cfqueryparam value="#arguments.from_date#" cfsqltype="cf_sql_varchar">,'#date_format#')
+					</cfif>
+					<cfif isDefined("arguments.end_date")>
+					AND items.creation_date <= STR_TO_DATE(<cfqueryparam value="#arguments.end_date# 23:59:59" cfsqltype="cf_sql_varchar">,'#datetime_format#')
+					</cfif>
+
 					
 					<cfif (arguments.itemTypeId IS 2 OR arguments.itemTypeId IS 3) AND NOT isDefined("arguments.areas_ids")><!---Entries, Links--->
 					ORDER BY items.position ASC, items.creation_date ASC

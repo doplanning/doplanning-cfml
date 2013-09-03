@@ -1,3 +1,9 @@
+
+<cfoutput>
+	<script type="text/javascript" src="#APPLICATION.bootstrapDatepickerJSPath#"></script>
+	<link href="#APPLICATION.bootstrapDatepickerCSSPath#" rel="stylesheet" type="text/css" />
+</cfoutput>
+
 <cfif NOT isDefined("itemTypeId")>
 	<cfset itemTypeId = "">
 </cfif>
@@ -51,6 +57,20 @@
 	<cfset limit_to = 100>
 </cfif>
 
+
+<cfif isDefined("URL.from_date")>
+	<cfset from_date = URL.from_date>
+<cfelse>
+	<cfset from_date = "">
+</cfif>
+
+<cfif isDefined("URL.end_date")>
+	<cfset end_date = URL.end_date>
+<cfelse>
+	<cfset end_date = "">
+</cfif>
+
+
 <cfif NOT isDefined("curElement") OR curElement NEQ "users">
 
 	<cfinvoke component="#APPLICATION.htmlComponentsPath#/User" method="getUsers" returnvariable="getUsersResponse">	
@@ -66,6 +86,40 @@
 	<cfset numUsers = ArrayLen(xmlUsers.users.XmlChildren)>
 
 </cfif>
+
+
+
+<script type="text/javascript">
+	
+	$(function() {
+
+		$('#from_date').datepicker({
+		  format: 'dd-mm-yyyy', 
+		  autoclose: true,
+		  endDate: $('#end_date').val()	  
+		});
+	
+		$('#end_date').datepicker({
+		  format: 'dd-mm-yyyy', 
+		  autoclose: true
+		});
+
+		
+	});
+	
+	
+	function setEndDate(){
+		$('#from_date').datepicker('setEndDate', $('#end_date').val());
+	}
+
+	function setFromDate(){
+		$('#end_date').datepicker('setStartDate', $('#from_date').val());
+	}
+
+	
+</script>
+
+
 
 <cfoutput>
 <div style="clear:both; padding-left:2px;">
@@ -90,6 +144,16 @@
 			
 		</cfloop>
 		</select>
+		
+		
+		<br/>	
+		&nbsp;<label for="from_user" lang="es">Fecha desde</label> 		
+		<input type="text" name="from_date" id="from_date" class="input_datepicker" value="#from_date#" onchange="setFromDate()">
+
+		&nbsp;<label for="end_user" lang="es">Fecha hasta</label> 
+		<input type="text" name="end_date" id="end_date" value="#end_date#" class="input_datepicker" onchange="setEndDate()"/>
+		
+		
 	
 		<cfif itemTypeId IS 6><!---Tasks--->
 			&nbsp;<label for="done" lang="es">Hecha</label> <select name="done" id="done" class="input-mini">
@@ -123,6 +187,9 @@
 		
 	</cfif>
 	
+	
+	
+	
 	&nbsp;<label for="limit" lang="es">Nº resultados</label> <select name="limit" id="limit" class="input-small">
 	<!---<option value="1" <cfif limit_to IS 1>selected="selected"</cfif>>1</option>--->
 	<option value="100" <cfif limit_to IS 100>selected="selected"</cfif>>100</option>
@@ -130,6 +197,8 @@
 	<option value="1000" <cfif limit_to IS 1000>selected="selected"</cfif>>1000</option>
 	</select>
 	<input type="submit" name="search" class="btn btn-primary" lang="es" value="Buscar" />
+	
+	<br/>&nbsp;<span style="font-size:10px" lang="es">Formato DD-MM-AAAA. Ejemplo:</span><span style="font-size:10px"> #DateFormat(now(), "DD-MM-YYYY")#</span>
 </form>
 </div>
 </cfoutput>

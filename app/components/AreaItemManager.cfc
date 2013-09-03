@@ -2504,6 +2504,8 @@
 		<cfargument name="limit" type="numeric" required="no">
 		<cfargument name="done" type="numeric" required="no">
 		<cfargument name="state" type="string" required="no">
+		<cfargument name="from_date" type="string" required="no">
+		<cfargument name="end_date" type="string" required="no">
 		
 		<cfset var method = "getAllAreasItems">
 
@@ -2544,6 +2546,12 @@
 				</cfif>
 				<cfif isDefined("arguments.state")>
 				<cfinvokeargument name="state" value="#arguments.state#">
+				</cfif>
+				<cfif isDefined("arguments.from_date")>
+				<cfinvokeargument name="from_date" value="#arguments.from_date#">
+				</cfif>
+				<cfif isDefined("arguments.end_date")>
+				<cfinvokeargument name="end_date" value="#arguments.end_date#">
 				</cfif>
 				
 				<cfinvokeargument name="client_abb" value="#client_abb#">

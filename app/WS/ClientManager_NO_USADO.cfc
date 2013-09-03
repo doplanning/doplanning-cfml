@@ -21,7 +21,7 @@
 	<cffunction name="xmlClient" returntype="string" output="false" access="public">		
 		<cfargument name="objectClient" type="struct" required="yes">
 		
-		<cfset var method = "xmlClient">
+		<cfset var method = "xmlClient"> 
 		
 		<cftry>
 		

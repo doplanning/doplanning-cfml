@@ -3187,6 +3187,8 @@ step="1">
 		<cfargument name="format_content" type="string" required="no" default="default">
 		<cfargument name="with_area" type="boolean" required="no" default="false">
 		<cfargument name="limit" type="numeric" required="no">
+		<cfargument name="from_date" type="string" required="no">
+		<cfargument name="end_date" type="string" required="no">
 		
 		<cfset var method = "getAllAreasFiles">
 		<cfset var areaFilesQuery = "">
@@ -3210,6 +3212,13 @@ step="1">
 				<cfif isDefined("arguments.limit")>
 				<cfinvokeargument name="limit" value="#arguments.limit#">
 				</cfif>
+				
+				<cfif isDefined("arguments.from_date")>
+				<cfinvokeargument name="from_date" value="#arguments.from_date#">
+				</cfif>
+				<cfif isDefined("arguments.end_date")>
+				<cfinvokeargument name="end_date" value="#arguments.end_date#">
+				</cfif>				
 				
 				<cfinvokeargument name="client_abb" value="#client_abb#">
 				<cfinvokeargument name="client_dsn" value="#client_dsn#">

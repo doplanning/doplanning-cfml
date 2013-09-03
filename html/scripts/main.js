@@ -193,6 +193,10 @@ function openUrl(url,target){
 
 		$("#"+target).attr('src', "iframes/"+getFilename(url));
 
+	}else if(target == "logItemIframe"){
+	
+		$("#"+target).attr('src', "iframes/"+getFilename(url));
+	
 	}else{
 		if(target == "areaIframe"){
 			

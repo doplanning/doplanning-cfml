@@ -339,6 +339,30 @@ a:hover {text-decoration:none; }
 }
 
 /*
+/////////////////////////log page\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+.div_log_page_title{
+	clear:both; font-size:14px; color:#666666; padding-left:8px; padding-top:6px; padding-bottom:6px; font-weight:bold;
+}
+.div_log_page_log{
+	background-color:#FFFFFF;
+	padding-left:8px;
+	padding-top:4px;
+	padding-bottom:8px;
+}
+.div_log_page_label{
+	float:left; clear:left; font-family:Arial, Helvetica, sans-serif; font-size:12px; color:#666666; line-height:16px; padding-top:3px; padding-bottom:3px; padding-right:5px;
+}
+.div_log_page_text{
+	font-size:13px; color:#000000;
+}
+.div_log_page_address{
+	clear:both; font-size:13px; color:#000000; padding-top:0px; padding-bottom:3px;
+}
+
+
+
+/*
 /////////////////////////file page\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 */
 .div_file_page_name{

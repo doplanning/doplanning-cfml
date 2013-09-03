@@ -11,6 +11,9 @@
 
 	<cfset component = "FileQuery">	
 	
+	<cfset date_format = "%d-%m-%Y"><!---%H:%i:%s---><!---Formato de fecha en la que se debe recibir los parámetros--->
+	<cfset datetime_format = "%d-%m-%Y %H:%i:%s">
+	
 	
 	<!---getFile--->
 	
@@ -56,6 +59,9 @@
 		<cfargument name="limit" type="numeric" required="no">
 		<cfargument name="with_area" type="boolean" required="no" default="false">
 		
+		<cfargument name="from_date" type="string" required="no">
+		<cfargument name="end_date" type="string" required="no">
+		
 		<cfargument name="client_abb" type="string" required="yes">
 		<cfargument name="client_dsn" type="string" required="yes">		
 		
@@ -100,6 +106,14 @@
 			)
 			</cfif>
 			AND files.status = 'ok'
+			
+			<cfif isDefined("arguments.from_date")>
+			AND files.uploading_date >= STR_TO_DATE(<cfqueryparam value="#arguments.from_date#" cfsqltype="cf_sql_varchar">,'#date_format#')
+			</cfif>
+			<cfif isDefined("arguments.end_date")>
+			AND files.uploading_date <= STR_TO_DATE(<cfqueryparam value="#arguments.end_date# 23:59:59" cfsqltype="cf_sql_varchar">,'#datetime_format#')
+			</cfif>			
+			
 			ORDER BY last_version_date DESC
 			<cfif isDefined("arguments.limit")>
 			LIMIT #arguments.limit#

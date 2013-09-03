@@ -26,6 +26,9 @@ var area_items_content_en = {
 	'Email':'Email',
 	'De este área':'From this area',
 	'Reunión virtual':'Virtual meeting',
+	'Fecha desde':'Date from',
+	'Fecha hasta':'Date to',
+	'Formato DD-MM-AAAA. Ejemplo:':'Format DD-MM-AAAA. Example:',
 	
 	'No hay messages en esta área.':'There are no messages in this area.',
 	'No hay eventos en esta área.':'There are no events in this area.',

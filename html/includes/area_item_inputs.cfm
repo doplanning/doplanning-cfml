@@ -12,7 +12,8 @@
 	$(function() {
 		$.datepicker.setDefaults($.datepicker.regional['es']);
 		
-		var dates = $( ".input_datepicker" ).datepicker({ dateFormat: 'dd-mm-yy', 
+		var dates = $( ".input_datepicker" ).datepicker({ 
+			dateFormat: 'dd-mm-yy', 
 			changeMonth: true,
 			changeYear: true
 			<cfif itemTypeId IS NOT 4>

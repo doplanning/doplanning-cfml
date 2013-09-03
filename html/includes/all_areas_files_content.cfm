@@ -22,6 +22,16 @@
 		<cfif isNumeric(limit_to)>
 		<cfinvokeargument name="limit" value="#limit_to#">
 		</cfif>
+		
+		<cfif len(from_date) GT 0>
+			<cfinvokeargument name="from_date" value="#from_date#">
+		</cfif>		
+		
+		<cfif len(end_date) GT 0>
+			<cfinvokeargument name="end_date" value="#end_date#">
+		</cfif>			
+		
+		
 	</cfinvoke>
 		
 	<cfxml variable="xmlFiles">
