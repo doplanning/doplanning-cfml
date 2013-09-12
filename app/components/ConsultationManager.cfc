@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE CONSULTATION WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createConsultationWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createConsultationWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createConsultationWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- UPDATE CONSULTATION -------------------------------- --->
@@ -134,7 +134,7 @@
 	
 	<!--- ----------------------- UPDATE CONSULTATION WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateConsultationWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="updateConsultationWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "updateConsultationWithAttachedFile">
@@ -167,7 +167,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- POST CONSULTATION TO TWITTER -------------------------------- --->

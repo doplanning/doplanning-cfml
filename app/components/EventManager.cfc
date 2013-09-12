@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE EVENT WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createEventWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createEventWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createEventWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- UPDATE EVENT -------------------------------- --->
@@ -134,7 +134,7 @@
 	
 	<!--- ----------------------- UPDATE EVENT WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateEventWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="updateEventWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "updateEventWithAttachedFile">
@@ -167,7 +167,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	

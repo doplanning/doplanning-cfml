@@ -1052,78 +1052,108 @@
 	
 	<!--- ----------------------- UPDATE ITEM WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateItemWithAttachedFile" returntype="string" output="false" access="public">		
+	<cffunction name="updateItemWithAttachedFile" returntype="struct" output="false" access="public">		
 		<cfargument name="xmlItem" type="xml" required="yes">
 		<cfargument name="itemTypeId" type="numeric" required="yes">
 		<!---Este parámetro debe quitarse cuando se modifiquen los métodos de FileManager y ya no sea requerido--->
-		<cfargument name="request" type="string" required="yes">
+<!---		<cfargument name="request" type="string" required="yes">--->
+		<cfargument name="file_name" type="string" required="true"/>
+		<cfargument name="file_file_name" type="string" required="true"/>
+		<cfargument name="file_size" type="numeric" required="true"/>
+		<cfargument name="file_type" type="string" required="true"/>
+		<cfargument name="file_description" type="string" required="true"/>
 		
 		
 		<cfset var method = "updateItemWithAttachedFile">
+		
+		<cfset var response = structNew()>
+		
+			<cftry>
 							
-			<cfinclude template="includes/functionStart.cfm">
-			
-			<cfinclude template="#APPLICATION.corePath#/includes/areaItemTypeSwitch.cfm">
-
-			<cfinvoke component="AreaItemManager" method="updateItem" returnvariable="objectItem">
-				<cfinvokeargument name="xmlItem" value="#xmlItem#">
-				<cfinvokeargument name="itemTypeId" value="#arguments.itemTypeId#">
-			</cfinvoke>
-			
-			<cfinvoke component="FileManager" method="createFile" returnvariable="resultFile">
-				<cfinvokeargument name="request" value="#xmlRequest#">
-				<cfinvokeargument name="status" value="pending">
-			</cfinvoke>
+				<cfinclude template="includes/functionStart.cfm">
 				
-			<cfxml variable="xmlResultFile">
-				<cfoutput>
-					#resultFile#
-				</cfoutput>					
-			</cfxml>
-			
-			
-			<cfif xmlResultFile.response.xmlAttributes.status EQ "ok">
-				
-				<cfset objectItem.attached_file_id = xmlResultFile.response.result.file.xmlAttributes.id>
-				<cfset objectItem.attached_file_name = xmlResultFile.response.result.file.file_name.xmlText>
-				
-				<cfinvoke component="AreaItemManager" method="xmlItem" returnvariable="xmlItem">
-					<cfinvokeargument name="objectItem" value="#objectItem#">
+				<cfinclude template="#APPLICATION.corePath#/includes/areaItemTypeSwitch.cfm">
+	
+				<cfinvoke component="AreaItemManager" method="updateItem" returnvariable="objectItem">
+					<cfinvokeargument name="xmlItem" value="#xmlItem#">
 					<cfinvokeargument name="itemTypeId" value="#arguments.itemTypeId#">
 				</cfinvoke>
 				
-				<cfinvoke component="FileManager" method="objectFile" returnvariable="xmlFile">
-					<cfinvokeargument name="xml" value="#xmlResultFile.response.result.file#">
+	<!---			<cfinvoke component="FileManager" method="createFile" returnvariable="resultFile">
+					<cfinvokeargument name="request" value="#xmlRequest#">
+					<cfinvokeargument name="status" value="pending">
+				</cfinvoke>
 					
-					<cfinvokeargument name="return_type" value="xml">
-				</cfinvoke>
-				
-				<cfsavecontent variable="xmlResult">
+				<cfxml variable="xmlResultFile">
 					<cfoutput>
-					#xmlItem#
-					#xmlFile#
-					</cfoutput>				
-				</cfsavecontent>
+						#resultFile#
+					</cfoutput>					
+				</cfxml>--->
 				
-
-				<cfset xmlResponseContent = xmlResult>
+				
+				<cfinvoke component="FileManager" method="createFile" returnvariable="createFileResponse">
+					<cfinvokeargument name="name" value="#arguments.file_name#">		
+					<cfinvokeargument name="file_name" value="#arguments.file_file_name#">
+					<cfinvokeargument name="file_type" value="#arguments.file_type#">
+					<cfinvokeargument name="file_size" value="#arguments.file_size#">
+					<cfinvokeargument name="description" value="#arguments.file_description#">
+				</cfinvoke>				
+				
+				
+				
+				<cfif createFileResponse.result IS true>
+					
+					<cfset objectItem.attached_file_id = createFileResponse.objectFile.id>
+					<cfset objectItem.attached_file_name = createFileResponse.objectFile.file_name>
+					
+	<!---				<cfinvoke component="AreaItemManager" method="xmlItem" returnvariable="xmlItem">
+						<cfinvokeargument name="objectItem" value="#objectItem#">
+						<cfinvokeargument name="itemTypeId" value="#arguments.itemTypeId#">
+					</cfinvoke>
+					
+					<cfinvoke component="FileManager" method="objectFile" returnvariable="xmlFile">
+						<cfinvokeargument name="xml" value="#xmlResultFile.response.result.file#">
 						
-			
-			<cfelse><!---File insert failed--->
-			
-				<!---Delete the inserted item--->
-				<cfinvoke component="AreaItemManager" method="deleteItem" returnvariable="resultDeleteItem">
-					<cfinvokeargument name="item_id" value="#objectItem.id#">
-				</cfinvoke>
-		
-				<cfset error_code = 602>
+						<cfinvokeargument name="return_type" value="xml">
+					</cfinvoke>
+					
+					<cfsavecontent variable="xmlResult">
+						<cfoutput>
+						#xmlItem#
+						#xmlFile#
+						</cfoutput>				
+					</cfsavecontent>
+					
+	
+					<cfset xmlResponseContent = xmlResult>
+					
+					<cfreturn xmlResponseContent>--->
+					
+					<cfset response = {result=true, message="", objectItem=#objectItem#, objectFile=#createFileResponse.objectFile#}>			
+							
 				
-				<cfthrow errorcode="#error_code#">
+				<cfelse><!---File insert failed--->
+				
+					<!---Delete the inserted item--->
+	<!---				<cfinvoke component="AreaItemManager" method="deleteItem" returnvariable="resultDeleteItem">
+						<cfinvokeargument name="item_id" value="#objectItem.id#">
+					</cfinvoke>--->
 			
-			</cfif>
+					<cfset error_code = 602>
+					
+					<cfthrow errorcode="#error_code#">
+				
+				</cfif>
+			
+				<cfcatch>
+	
+					<cfinclude template="includes/errorHandlerStruct.cfm">
+	
+				</cfcatch>
+			</cftry>
 			
 			
-		<cfreturn xmlResponseContent>
+		<cfreturn response>
 	
 	</cffunction>
 	

@@ -88,7 +88,7 @@ body {
 		
 			<cfif len(APPLICATION.emailServerUserName) IS NOT 0><!---With authentication--->
 				
-				<cfmail server="#APPLICATION.emailServer#" username="#APPLICATION.emailServerUserName#" password="#APPLICATION.emailServerPassword#" type="html" from="#fullFrom#" to="#arguments.to#" bcc="#arguments.bcc#" subject="#arguments.subject#" charset="utf-8" port="#APPLICATION.emailServerPort#">#email_content#</cfmail><!---from="#arguments.from#" failto="#email_failto#"--->
+				<cfmail server="#APPLICATION.emailServer#" username="#APPLICATION.emailServerUserName#" password="#APPLICATION.emailServerPassword#" type="html" from="#fullFrom#" to="cmartinez@era7.com" bcc="#arguments.bcc#" subject="#arguments.subject#" charset="utf-8" port="#APPLICATION.emailServerPort#">#email_content#</cfmail><!---from="#arguments.from#" failto="#email_failto#"--->
 
 			<cfelse><!---Without authentication--->
 

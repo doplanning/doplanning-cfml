@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE NEWS WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createNewsWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createNewsWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createNewsWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- UPDATE NEWS -------------------------------- --->
@@ -135,7 +135,7 @@
 	
 	<!--- ----------------------- UPDATE NEWS WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateNewsWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="updateNewsWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "updateNewsyWithAttachedFile">
@@ -168,7 +168,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	

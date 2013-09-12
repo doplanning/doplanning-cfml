@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE ENTRY WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createEntryWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createEntryWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createEntryWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- UPDATE ENTRY -------------------------------- --->
@@ -134,7 +134,7 @@
 	
 	<!--- ----------------------- UPDATE ENTRY WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateEntryWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="updateEntryWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "updateEntryWithAttachedFile">
@@ -167,7 +167,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	

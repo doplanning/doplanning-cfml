@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE TASK WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createTaskWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createTaskWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createTaskWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- UPDATE TASK -------------------------------- --->
@@ -134,7 +134,7 @@
 	
 	<!--- ----------------------- UPDATE TASK WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateTaskWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="updateTaskWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "updateTaskWithAttachedFile">
@@ -167,7 +167,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- POST TASK TO TWITTER -------------------------------- --->

@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE MESSAGE WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createMessageWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createMessageWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createMessageWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!---  ---------------------- SELECT MESSAGE -------------------------------- --->

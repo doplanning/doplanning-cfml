@@ -55,7 +55,7 @@
 	
 	<!--- ----------------------- CREATE LINK WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="createLinkWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="createLinkWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "createLinkWithAttachedFile">
@@ -88,7 +88,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	<!--- ----------------------- UPDATE LINK -------------------------------- --->
@@ -135,7 +135,7 @@
 	
 	<!--- ----------------------- UPDATE LINK WITH ATTACHED -------------------------------- --->
 	
-	<cffunction name="updateLinkWithAttachedFile" returntype="string" output="false" access="public">		
+<!---	<cffunction name="updateLinkWithAttachedFile" returntype="string" output="false" access="public">		
 		<cfargument name="request" type="string" required="yes">
 		
 		<cfset var method = "updateLinkWithAttachedFile">
@@ -168,7 +168,7 @@
 		
 		<cfreturn xmlResponse>
 	
-	</cffunction>
+	</cffunction>--->
 	
 	
 	
